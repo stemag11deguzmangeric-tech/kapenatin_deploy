@@ -1,0 +1,26 @@
+name: 🚀 Deploy to kapenatin.fwh.is
+
+on:
+  workflow_dispatch: # Uncomment below to deploy on push instead
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 🎉 Deploy to kapenatin.fwh.is
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftpupload.net # Change if using another host
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /htdocs/ # Replace with your correct path
+          retries: 3
+          retryDelay: 10
